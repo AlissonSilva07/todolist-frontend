@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-export function SignIn() {
+export function SignUp() {
   return (
     <>
       <div className="text-center my-5">
@@ -13,7 +13,7 @@ export function SignIn() {
 
       <div className="card shadow-lg">
         <div className="card-body p-5">
-          <h1 className="fs-4 card-title fw-bold mb-4">Login</h1>
+          <h1 className="fs-4 card-title fw-bold mb-4">Cadastre-se</h1>
 
           <form
             method="POST"
@@ -21,6 +21,24 @@ export function SignIn() {
             noValidate=""
             autoComplete="off"
           >
+            <div className="mb-3">
+              <label className="mb-2 text-muted" htmlFor="email">
+                Nome
+              </label>
+
+              <input
+                id="nome"
+                type="text"
+                className="form-control"
+                name="nome"
+                value=""
+                required
+                autoFocus
+              />
+
+              <div className="invalid-feedback">Nome está inválido</div>
+            </div>
+
             <div className="mb-3">
               <label className="mb-2 text-muted" htmlFor="email">
                 E-Mail
@@ -33,7 +51,6 @@ export function SignIn() {
                 name="email"
                 value=""
                 required
-                autoFocus
               />
 
               <div className="invalid-feedback">E-mail está inválido</div>
@@ -56,16 +73,16 @@ export function SignIn() {
             </div>
 
             <button type="submit" className="btn btn-primary ms-auto">
-              Entrar
+              Cadastrar
             </button>
           </form>
         </div>
 
         <div className="card-footer py-3 border-0">
           <div className="text-center">
-            Não tem uma conta?{' '}
-            <Link to="/signup" className="text-dark">
-              Crie uma
+            Já tem uma conta?{' '}
+            <Link to="/" className="text-dark">
+              Faça login
             </Link>
           </div>
         </div>
