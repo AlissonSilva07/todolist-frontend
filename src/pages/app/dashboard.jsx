@@ -1,28 +1,40 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
+import { createTask } from '../../api/create-task'
 import { getTasks } from '../../api/get-tasks'
 
 export function Dashboard() {
+  const queryClient = useQueryClient()
+
   const [newTask, setNewTask] = useState('')
-  // const [tasks, setTasks] = useState([])
 
   const { data: tasks, isLoading: isLoadingTask } = useQuery({
     queryKey: ['tasks'],
     queryFn: getTasks,
   })
 
+  const { mutateAsync: addTask, isPending } = useMutation({
+    mutationFn: createTask,
+    onSuccess() {
+      queryClient.invalidateQueries('tasks')
+    },
+  })
+
   function handleNewTaskName(event) {
     setNewTask(event.target.value)
   }
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault()
 
-    // setTasks((prevState) => [
-    //   ...prevState,
-    //   { id: prevState.length + 1, title: newTask, completed: false },
-    // ])
+    try {
+      await addTask({ title: newTask })
+    } catch (error) {
+      console.log(error)
+    }
+
+    setNewTask('')
   }
 
   return (
@@ -46,8 +58,21 @@ export function Dashboard() {
           </div>
 
           <div className="d-flex align-items-end">
-            <button type="submit" className="btn btn-primary btn-lg ms-2">
-              Add
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg ms-2"
+              disabled={isPending}
+            >
+              {isPending && (
+                <>
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    aria-hidden="true"
+                  />
+                </>
+              )}
+
+              <span role="status">Add</span>
             </button>
           </div>
         </form>
