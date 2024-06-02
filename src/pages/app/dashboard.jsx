@@ -1,8 +1,16 @@
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+
+import { getTasks } from '../../api/get-tasks'
 
 export function Dashboard() {
   const [newTask, setNewTask] = useState('')
-  const [tasks, setTasks] = useState([])
+  // const [tasks, setTasks] = useState([])
+
+  const { data: tasks, isLoading: isLoadingTask } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: getTasks,
+  })
 
   function handleNewTaskName(event) {
     setNewTask(event.target.value)
@@ -11,10 +19,10 @@ export function Dashboard() {
   function onSubmit(event) {
     event.preventDefault()
 
-    setTasks((prevState) => [
-      ...prevState,
-      { id: prevState.length + 1, title: newTask, completed: false },
-    ])
+    // setTasks((prevState) => [
+    //   ...prevState,
+    //   { id: prevState.length + 1, title: newTask, completed: false },
+    // ])
   }
 
   return (
@@ -44,34 +52,42 @@ export function Dashboard() {
           </div>
         </form>
 
-        <ul className="list-group mb-0">
-          {tasks.map((task) => (
-            <>
-              <li
-                key={task.id}
-                className="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2"
-              >
-                <div className="form-check">
-                  <input
-                    id="task"
-                    className="form-check-input me-2"
-                    type="checkbox"
-                    value={task.completed}
-                    aria-label="..."
-                  />
+        {isLoadingTask ? (
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        ) : (
+          <ul className="list-group mb-0">
+            {tasks.map((task) => (
+              <>
+                <li
+                  key={task.id}
+                  className="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2"
+                >
+                  <div className="form-check">
+                    <input
+                      id="task"
+                      className="form-check-input me-2"
+                      type="checkbox"
+                      value={task.completed}
+                      aria-label="..."
+                    />
 
-                  <label className="form-check-label" htmlFor="task">
-                    {task.title}
-                  </label>
-                </div>
+                    <label className="form-check-label" htmlFor="task">
+                      {task.title}
+                    </label>
+                  </div>
 
-                <a href="#!" data-mdb-tooltip-init title="Remove item">
-                  <i className="fas fa-times text-primary"></i>
-                </a>
-              </li>
-            </>
-          ))}
-        </ul>
+                  <a href="#!" data-mdb-tooltip-init title="Remove item">
+                    <i className="fas fa-times text-primary"></i>
+                  </a>
+                </li>
+              </>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   )
