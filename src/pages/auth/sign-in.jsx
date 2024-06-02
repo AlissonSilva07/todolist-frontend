@@ -1,6 +1,35 @@
+import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { signIn } from '../../api/sign-in'
+
 export function SignIn() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: signIn,
+  })
+
+  function handleEmail(e) {
+    setEmail(e.target.value)
+  }
+
+  function handlePassword(e) {
+    setPassword(e.target.value)
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault()
+
+    try {
+      console.log(await authenticate({ email, password }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className="text-center my-5">
@@ -16,9 +45,9 @@ export function SignIn() {
           <h1 className="fs-4 card-title fw-bold mb-4">Login</h1>
 
           <form
-            method="POST"
+            onSubmit={onSubmit}
             className="needs-validation"
-            noValidate=""
+            noValidate
             autoComplete="off"
           >
             <div className="mb-3">
@@ -30,13 +59,11 @@ export function SignIn() {
                 id="email"
                 type="email"
                 className="form-control"
-                name="email"
-                value=""
+                value={email}
+                onChange={handleEmail}
                 required
                 autoFocus
               />
-
-              <div className="invalid-feedback">E-mail está inválido</div>
             </div>
 
             <div className="mb-3">
@@ -47,12 +74,11 @@ export function SignIn() {
               <input
                 id="password"
                 type="password"
+                value={password}
+                onChange={handlePassword}
                 className="form-control"
-                name="password"
                 required
               />
-
-              <div className="invalid-feedback">Password is required</div>
             </div>
 
             <button type="submit" className="btn btn-primary ms-auto">

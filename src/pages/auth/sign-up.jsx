@@ -1,6 +1,40 @@
+import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { signUp } from '../../api/sign-up'
+
 export function SignUp() {
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const { mutateAsync: register, isPending } = useMutation({
+    mutationFn: signUp,
+  })
+
+  function handleUsername(e) {
+    setUsername(e.target.value)
+  }
+
+  function handleEmail(e) {
+    setEmail(e.target.value)
+  }
+
+  function handlePassword(e) {
+    setPassword(e.target.value)
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault()
+
+    try {
+      await register({ username, email, password })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className="text-center my-5">
@@ -16,27 +50,25 @@ export function SignUp() {
           <h1 className="fs-4 card-title fw-bold mb-4">Cadastre-se</h1>
 
           <form
-            method="POST"
+            onSubmit={onSubmit}
             className="needs-validation"
-            noValidate=""
+            noValidate
             autoComplete="off"
           >
             <div className="mb-3">
-              <label className="mb-2 text-muted" htmlFor="email">
+              <label className="mb-2 text-muted" htmlFor="name">
                 Nome
               </label>
 
               <input
-                id="nome"
+                id="name"
                 type="text"
                 className="form-control"
-                name="nome"
-                value=""
+                value={username}
+                onChange={handleUsername}
                 required
                 autoFocus
               />
-
-              <div className="invalid-feedback">Nome está inválido</div>
             </div>
 
             <div className="mb-3">
@@ -48,12 +80,10 @@ export function SignUp() {
                 id="email"
                 type="email"
                 className="form-control"
-                name="email"
-                value=""
+                value={email}
+                onChange={handleEmail}
                 required
               />
-
-              <div className="invalid-feedback">E-mail está inválido</div>
             </div>
 
             <div className="mb-3">
@@ -65,15 +95,29 @@ export function SignUp() {
                 id="password"
                 type="password"
                 className="form-control"
-                name="password"
+                value={password}
+                onChange={handlePassword}
                 required
               />
-
-              <div className="invalid-feedback">Password is required</div>
             </div>
 
-            <button type="submit" className="btn btn-primary ms-auto">
-              Cadastrar
+            <button
+              type="submit"
+              className="btn btn-primary ms-auto"
+              disabled={isPending}
+            >
+              {isPending ? (
+                <>
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    aria-hidden="true"
+                  />
+
+                  <span role="status">Cadastrando ...</span>
+                </>
+              ) : (
+                'Cadastrar'
+              )}
             </button>
           </form>
         </div>
