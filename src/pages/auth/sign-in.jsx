@@ -1,10 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { signIn } from '../../api/sign-in'
 
 export function SignIn() {
+  const navigate = useNavigate()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -24,7 +26,9 @@ export function SignIn() {
     e.preventDefault()
 
     try {
-      console.log(await authenticate({ email, password }))
+      await authenticate({ email, password })
+
+      navigate('/', { replace: true })
     } catch (error) {
       console.log(error)
     }
@@ -47,7 +51,6 @@ export function SignIn() {
           <form
             onSubmit={onSubmit}
             className="needs-validation"
-            noValidate
             autoComplete="off"
           >
             <div className="mb-3">
