@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
 import { createTask } from '../../api/create-task'
+import { deleteTask } from '../../api/delete-task'
 import { getTasks } from '../../api/get-tasks'
 
 export function Dashboard() {
@@ -14,8 +15,15 @@ export function Dashboard() {
     queryFn: getTasks,
   })
 
-  const { mutateAsync: addTask, isPending } = useMutation({
+  const { mutateAsync: addTask, isPending: isPendingAddTask } = useMutation({
     mutationFn: createTask,
+    onSuccess() {
+      queryClient.invalidateQueries('tasks')
+    },
+  })
+
+  const { mutateAsync: removeTask } = useMutation({
+    mutationFn: deleteTask,
     onSuccess() {
       queryClient.invalidateQueries('tasks')
     },
@@ -23,6 +31,14 @@ export function Dashboard() {
 
   function handleNewTaskName(event) {
     setNewTask(event.target.value)
+  }
+
+  async function handleTaskDelete(id) {
+    try {
+      await removeTask(id)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async function onSubmit(event) {
@@ -37,10 +53,12 @@ export function Dashboard() {
     setNewTask('')
   }
 
+  const todoList = tasks ?? []
+
   return (
-    <div className="card">
+    <div className="card shadow-lg">
       <div className="card-body p-5">
-        <h6 className="mb-3">Todo List</h6>
+        <h6 className="mb-3">Minhas tarefas</h6>
 
         <form onSubmit={onSubmit} className="d-flex justify-content-end mb-4">
           <div className="form-outline flex-fill">
@@ -61,18 +79,18 @@ export function Dashboard() {
             <button
               type="submit"
               className="btn btn-primary btn-lg ms-2"
-              disabled={isPending}
+              disabled={!newTask || isPendingAddTask}
             >
-              {isPending && (
+              {isPendingAddTask ? (
                 <>
                   <span
                     className="spinner-border spinner-border-sm"
                     aria-hidden="true"
                   />
                 </>
+              ) : (
+                <i className="bi bi-plus-circle" />
               )}
-
-              <span role="status">Add</span>
             </button>
           </div>
         </form>
@@ -85,10 +103,10 @@ export function Dashboard() {
           </div>
         ) : (
           <ul className="list-group mb-0">
-            {tasks.map((task) => (
+            {todoList.map((task) => (
               <>
                 <li
-                  key={task.id}
+                  key={task._id}
                   className="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2"
                 >
                   <div className="form-check">
@@ -105,9 +123,13 @@ export function Dashboard() {
                     </label>
                   </div>
 
-                  <a href="#!" data-mdb-tooltip-init title="Remove item">
-                    <i className="fas fa-times text-primary"></i>
-                  </a>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => handleTaskDelete(task._id)}
+                  >
+                    <i className="bi bi-trash" />
+                  </button>
                 </li>
               </>
             ))}
