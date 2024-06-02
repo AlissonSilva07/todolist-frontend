@@ -1,10 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { signUp } from '../../api/sign-up'
 
 export function SignUp() {
+  const navigate = useNavigate()
+
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -30,6 +32,8 @@ export function SignUp() {
 
     try {
       await register({ username, email, password })
+
+      navigate('/signin')
     } catch (error) {
       console.log(error)
     }
@@ -52,7 +56,6 @@ export function SignUp() {
           <form
             onSubmit={onSubmit}
             className="needs-validation"
-            noValidate
             autoComplete="off"
           >
             <div className="mb-3">
@@ -125,7 +128,7 @@ export function SignUp() {
         <div className="card-footer py-3 border-0">
           <div className="text-center">
             Já tem uma conta?{' '}
-            <Link to="/" className="text-dark">
+            <Link to="/signin" className="text-dark">
               Faça login
             </Link>
           </div>
