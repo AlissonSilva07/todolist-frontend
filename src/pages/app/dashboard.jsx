@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 
 import { createTask } from '../../api/create-task'
 import { deleteTask } from '../../api/delete-task'
 import { getTasks } from '../../api/get-tasks'
+import { putTask } from '../../api/update-task'
 
 export function Dashboard() {
   const queryClient = useQueryClient()
@@ -29,6 +30,13 @@ export function Dashboard() {
     },
   })
 
+  const { mutateAsync: updateTask } = useMutation({
+    mutationFn: putTask,
+    onSuccess() {
+      queryClient.invalidateQueries('tasks')
+    },
+  })
+
   function handleNewTaskName(event) {
     setNewTask(event.target.value)
   }
@@ -36,6 +44,14 @@ export function Dashboard() {
   async function handleTaskDelete(id) {
     try {
       await removeTask(id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function handleUpdateTask({ id, event }) {
+    try {
+      await updateTask({ id, completed: event.target.checked })
     } catch (error) {
       console.log(error)
     }
@@ -104,21 +120,23 @@ export function Dashboard() {
         ) : (
           <ul className="list-group mb-0">
             {todoList.map((task) => (
-              <>
-                <li
-                  key={task._id}
-                  className="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2"
-                >
+              <Fragment key={task._id}>
+                <li className="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
                   <div className="form-check">
                     <input
-                      id="task"
+                      id={`task-${task._id}`}
                       className="form-check-input me-2"
                       type="checkbox"
-                      value={task.completed}
-                      aria-label="..."
+                      checked={task.completed}
+                      onChange={(event) =>
+                        handleUpdateTask({ id: task._id, event })
+                      }
                     />
 
-                    <label className="form-check-label" htmlFor="task">
+                    <label
+                      className="form-check-label"
+                      htmlFor={`task-${task._id}`}
+                    >
                       {task.title}
                     </label>
                   </div>
@@ -131,7 +149,7 @@ export function Dashboard() {
                     <i className="bi bi-trash" />
                   </button>
                 </li>
-              </>
+              </Fragment>
             ))}
           </ul>
         )}
