@@ -8,7 +8,7 @@ export function AppLayout() {
     const token = localStorage.getItem('token')
 
     if (!token) {
-      navigate('/dashboard', { replace: true })
+      navigate('/signin', { replace: true })
     }
   }, [navigate])
 

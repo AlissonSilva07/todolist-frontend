@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Fragment, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { createTask } from '../../api/create-task'
 import { deleteTask } from '../../api/delete-task'
@@ -9,6 +10,7 @@ import { Logo } from '../../components/Logo'
 
 export function Dashboard() {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const [newTask, setNewTask] = useState('')
 
@@ -40,6 +42,11 @@ export function Dashboard() {
 
   function handleNewTaskName(event) {
     setNewTask(event.target.value)
+  }
+
+  function handleLogout() {
+    localStorage.clear()
+    navigate('/signin', { replace: true })
   }
 
   async function handleTaskDelete(id) {
@@ -81,7 +88,7 @@ export function Dashboard() {
           type="button"
           className="btn btn-secondary"
           title="Sair"
-          // onClick={() => handleTaskDelete(task._id)}
+          onClick={handleLogout}
         >
           <i className="bi bi-box-arrow-left" />
         </button>
