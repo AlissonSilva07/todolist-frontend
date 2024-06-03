@@ -10,7 +10,7 @@
 
 > Foi desenvolvido também o **backend Minhas listas**. Se quiser olhar como ficou [clique aqui](https://github.com/kassiosilva/api-todo-list).
 
-Esse front end traz todas as principais funcionalidades de uma lista de tarefas, além de se comunicar com uma API REST para para salvar suas tarefas. Este sistema foi feito como trabalho final da disciplina de sistemas para web.
+Esse front end traz todas as principais funcionalidades de uma lista de tarefas, além de se comunicar com uma API REST para para salvar suas tarefas. Este sistema foi feito como trabalho final da disciplina de desenv plataformas web.
 
 ## ⚙️ Funcionalidades
 
