@@ -5,8 +5,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { Logo } from '../../components/Logo'
 
 export function Home() {
-  const { pathname } = useLocation()
-
   return (
     <section className="wrapper d-flex vh-100 text-center">
       <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -43,9 +41,8 @@ export function Home() {
           <h1>Minhas Tarefas</h1>
 
           <p className="lead">
-            Organize sua vida com facilidade: cadastre, atualize, conclua e
-            remova tarefas pessoais em nossa aplicação, tudo salvo é salvo e
-            sincronizado na nuvem.
+            Organize sua vida com facilidade: cadastre, conclua e remova tarefas
+            pessoais em nossa aplicação, tudo é salvo e sincronizado na nuvem.
           </p>
         </main>
       </div>
