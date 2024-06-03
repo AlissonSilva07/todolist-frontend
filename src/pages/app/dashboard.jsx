@@ -89,8 +89,6 @@ export function Dashboard() {
 
       <div className="card shadow-lg">
         <div className="card-body p-5">
-          <h6 className="mb-3">Minhas tarefas</h6>
-
           <form onSubmit={onSubmit} className="d-flex justify-content-end mb-4">
             <div className="form-outline flex-fill">
               <label className="form-label" htmlFor="taskName">
@@ -152,7 +150,7 @@ export function Dashboard() {
                         className="form-check-label"
                         htmlFor={`task-${task._id}`}
                       >
-                        {task.title}
+                        {task.completed ? <s>{task.title}</s> : task.title}
                       </label>
                     </div>
 
