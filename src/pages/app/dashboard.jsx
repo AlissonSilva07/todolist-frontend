@@ -5,6 +5,7 @@ import { createTask } from '../../api/create-task'
 import { deleteTask } from '../../api/delete-task'
 import { getTasks } from '../../api/get-tasks'
 import { putTask } from '../../api/update-task'
+import { Logo } from '../../components/Logo'
 
 export function Dashboard() {
   const queryClient = useQueryClient()
@@ -72,88 +73,103 @@ export function Dashboard() {
   const todoList = tasks ?? []
 
   return (
-    <div className="card shadow-lg">
-      <div className="card-body p-5">
-        <h6 className="mb-3">Minhas tarefas</h6>
+    <>
+      <header className="d-flex justify-content-between align-items-center mb-4">
+        <Logo className="h3 float-md-start" />
 
-        <form onSubmit={onSubmit} className="d-flex justify-content-end mb-4">
-          <div className="form-outline flex-fill">
-            <label className="form-label" htmlFor="taskName">
-              O que você precisa fazer hoje?
-            </label>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          title="Sair"
+          // onClick={() => handleTaskDelete(task._id)}
+        >
+          <i className="bi bi-box-arrow-left" />
+        </button>
+      </header>
 
-            <input
-              type="text"
-              id="taskName"
-              onChange={handleNewTaskName}
-              value={newTask}
-              className="form-control form-control-lg"
-            />
-          </div>
+      <div className="card shadow-lg">
+        <div className="card-body p-5">
+          <h6 className="mb-3">Minhas tarefas</h6>
 
-          <div className="d-flex align-items-end">
-            <button
-              type="submit"
-              className="btn btn-primary btn-lg ms-2"
-              disabled={!newTask || isPendingAddTask}
-            >
-              {isPendingAddTask ? (
-                <>
-                  <span
-                    className="spinner-border spinner-border-sm"
-                    aria-hidden="true"
-                  />
-                </>
-              ) : (
-                <i className="bi bi-plus-circle" />
-              )}
-            </button>
-          </div>
-        </form>
+          <form onSubmit={onSubmit} className="d-flex justify-content-end mb-4">
+            <div className="form-outline flex-fill">
+              <label className="form-label" htmlFor="taskName">
+                O que você precisa fazer hoje?
+              </label>
 
-        {isLoadingTask ? (
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status">
-              <span className="visually-hidden">Loading...</span>
+              <input
+                type="text"
+                id="taskName"
+                onChange={handleNewTaskName}
+                value={newTask}
+                className="form-control form-control-lg"
+              />
             </div>
-          </div>
-        ) : (
-          <ul className="list-group mb-0">
-            {todoList.map((task) => (
-              <Fragment key={task._id}>
-                <li className="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
-                  <div className="form-check">
-                    <input
-                      id={`task-${task._id}`}
-                      className="form-check-input me-2"
-                      type="checkbox"
-                      checked={task.completed}
-                      onChange={(event) =>
-                        handleUpdateTask({ id: task._id, event })
-                      }
+
+            <div className="d-flex align-items-end">
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg ms-2"
+                disabled={!newTask || isPendingAddTask}
+              >
+                {isPendingAddTask ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm"
+                      aria-hidden="true"
                     />
+                  </>
+                ) : (
+                  <i className="bi bi-plus-circle" />
+                )}
+              </button>
+            </div>
+          </form>
 
-                    <label
-                      className="form-check-label"
-                      htmlFor={`task-${task._id}`}
+          {isLoadingTask ? (
+            <div className="d-flex justify-content-center">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <ul className="list-group mb-0">
+              {todoList.map((task) => (
+                <Fragment key={task._id}>
+                  <li className="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
+                    <div className="form-check">
+                      <input
+                        id={`task-${task._id}`}
+                        className="form-check-input me-2"
+                        type="checkbox"
+                        checked={task.completed}
+                        onChange={(event) =>
+                          handleUpdateTask({ id: task._id, event })
+                        }
+                      />
+
+                      <label
+                        className="form-check-label"
+                        htmlFor={`task-${task._id}`}
+                      >
+                        {task.title}
+                      </label>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleTaskDelete(task._id)}
                     >
-                      {task.title}
-                    </label>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => handleTaskDelete(task._id)}
-                  >
-                    <i className="bi bi-trash" />
-                  </button>
-                </li>
-              </Fragment>
-            ))}
-          </ul>
-        )}
+                      <i className="bi bi-trash" />
+                    </button>
+                  </li>
+                </Fragment>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { signIn } from '../../api/sign-in'
+import { Logo } from '../../components/Logo'
 
 export function SignIn() {
   const navigate = useNavigate()
@@ -28,7 +29,7 @@ export function SignIn() {
     try {
       await authenticate({ email, password })
 
-      navigate('/', { replace: true })
+      navigate('/dashboard', { replace: true })
     } catch (error) {
       console.log(error)
     }
@@ -37,11 +38,7 @@ export function SignIn() {
   return (
     <>
       <div className="text-center my-5">
-        <img
-          src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"
-          alt="logo"
-          width="100"
-        />
+        <Logo />
       </div>
 
       <div className="card shadow-lg">
@@ -55,7 +52,7 @@ export function SignIn() {
           >
             <div className="mb-3">
               <label className="mb-2 text-muted" htmlFor="email">
-                E-Mail
+                E-mail
               </label>
 
               <input

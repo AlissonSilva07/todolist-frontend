@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { signUp } from '../../api/sign-up'
+import { Logo } from '../../components/Logo'
 
 export function SignUp() {
   const navigate = useNavigate()
@@ -42,11 +43,7 @@ export function SignUp() {
   return (
     <>
       <div className="text-center my-5">
-        <img
-          src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"
-          alt="logo"
-          width="100"
-        />
+        <Logo />
       </div>
 
       <div className="card shadow-lg">
@@ -76,7 +73,7 @@ export function SignUp() {
 
             <div className="mb-3">
               <label className="mb-2 text-muted" htmlFor="email">
-                E-Mail
+                E-mail
               </label>
 
               <input
