@@ -28,7 +28,7 @@ Esse front end traz todas as principais funcionalidades de uma lista de tarefas,
 
 - Autenticado você é redirecionado para a dashboard onde estará listado suas tarefas. Você pode adicionar, remover e marcar como concluído as tarefas.
 
-  ![Tela de login](/assets/readme/dashboard.png "Login")
+  ![Tela de login](/assets/readme/dashboard.png "Dashboard")
 
 ## 🛠 Tecnologias
 
