@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import { signIn } from '../../api/sign-in'
 import { Logo } from '../../components/Logo'
@@ -31,7 +32,7 @@ export function SignIn() {
 
       navigate('/dashboard', { replace: true })
     } catch (error) {
-      console.log(error)
+      toast.error('Erro ao logar. Tente novamente.')
     }
   }
 

@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import { signUp } from '../../api/sign-up'
 import { Logo } from '../../components/Logo'
@@ -34,9 +35,11 @@ export function SignUp() {
     try {
       await register({ username, email, password })
 
+      toast.success('Usuário cadastrado!')
+
       navigate('/signin')
     } catch (error) {
-      console.log(error)
+      toast.error('Não foi possível cadastrar o usuário')
     }
   }
 

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Fragment, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import { createTask } from '../../api/create-task'
 import { deleteTask } from '../../api/delete-task'
@@ -53,7 +54,7 @@ export function Dashboard() {
     try {
       await removeTask(id)
     } catch (error) {
-      console.log(error)
+      toast.error('Erro ao deletar tarefa')
     }
   }
 
@@ -61,7 +62,7 @@ export function Dashboard() {
     try {
       await updateTask({ id, completed: event.target.checked })
     } catch (error) {
-      console.log(error)
+      toast.error('Erro ao completar tarefa.')
     }
   }
 
@@ -71,7 +72,7 @@ export function Dashboard() {
     try {
       await addTask({ title: newTask })
     } catch (error) {
-      console.log(error)
+      toast.error('Erro ao cadastrar tarefa.')
     }
 
     setNewTask('')
