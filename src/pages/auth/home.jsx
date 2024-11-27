@@ -1,4 +1,5 @@
 import './home.css'
+import LogoFull from '../../assets/logo-white.png'
 
 import { Link, useLocation } from 'react-router-dom'
 
@@ -38,9 +39,9 @@ export function Home() {
         </header>
 
         <main className="mt-auto mb-auto">
-          <h1>Minhas Tarefas</h1>
+          <img src={LogoFull} alt="Company Logo" className='w-50' />
 
-          <p className="lead">
+          <p className="lead .text-secondary">
             Organize sua vida com facilidade: cadastre, conclua e remova tarefas
             pessoais em nossa aplicação, tudo é salvo e sincronizado na nuvem.
           </p>
