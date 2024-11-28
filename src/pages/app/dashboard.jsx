@@ -82,25 +82,25 @@ export function Dashboard() {
 
   return (
     <>
-      <header className="d-flex justify-content-between align-items-center mb-4">
-        <Logo className="h3 float-md-start" />
-
-        <button
-          type="button"
-          className="btn btn-secondary"
-          title="Sair"
-          onClick={handleLogout}
-        >
-          <i className="bi bi-box-arrow-left" />
-        </button>
-      </header>
-
-      <div className="card shadow-lg">
+      <div className="card shadow-lg rounded-4">
         <div className="card-body p-5">
+          <header className="d-flex justify-content-between align-items-center mb-4">
+            <Logo className="h3 float-md-start" />
+
+            <button
+              type="button"
+              className="btn btn-outline-secondary d-flex justify-content-center align-items-center"
+              title="Sair"
+              onClick={handleLogout}
+            >
+              <p className="mb-0">Sair</p>
+              <i className="bi bi-box-arrow-right ms-2" />
+            </button>
+          </header>
           <form onSubmit={onSubmit} className="d-flex justify-content-end mb-4">
             <div className="form-outline flex-fill">
-              <label className="form-label" htmlFor="taskName">
-                O que você precisa fazer hoje?
+              <label className="form-label fs-4 mb-4" htmlFor="taskName">
+                Bem-vindo(a) ao <span className='text-primary fw-bold'>Minhas Tarefas!</span> <br /> O que você precisa fazer hoje?
               </label>
 
               <input
@@ -115,7 +115,7 @@ export function Dashboard() {
             <div className="d-flex align-items-end">
               <button
                 type="submit"
-                className="btn btn-primary btn-lg ms-2"
+                className="btn btn-primary btn-lg ms-2 d-flex"
                 disabled={!newTask || isPendingAddTask}
               >
                 {isPendingAddTask ? (
@@ -126,7 +126,7 @@ export function Dashboard() {
                     />
                   </>
                 ) : (
-                  <i className="bi bi-plus-circle" />
+                  <span className='d-flex gap-2 align-items-center'><i className="bi bi-plus-lg" /> Adicionar</span>
                 )}
               </button>
             </div>
@@ -140,9 +140,9 @@ export function Dashboard() {
             </div>
           ) : (
             <ul className="list-group mb-0">
-              {todoList.map((task) => (
+              {todoList.length > 0 && todoList.map((task) => (
                 <Fragment key={task._id}>
-                  <li className="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
+                  <li className="w-100 list-group-item d-flex justify-content-between align-items-center border border-light rounded-4 mb-2 shadow-sm">
                     <div className="form-check">
                       <input
                         id={`task-${task._id}`}
@@ -167,7 +167,7 @@ export function Dashboard() {
                       className="btn btn-danger"
                       onClick={() => handleTaskDelete(task._id)}
                     >
-                      <i className="bi bi-trash" />
+                      <i className="bi bi-trash3" />
                     </button>
                   </li>
                 </Fragment>

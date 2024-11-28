@@ -13,7 +13,7 @@ export function AppLayout() {
   }, [navigate])
 
   return (
-    <section className="vh-100">
+    <section className="vh-100 bg-primary">
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="p-5 col col-xl-10">

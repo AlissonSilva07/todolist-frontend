@@ -4,7 +4,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { signIn } from '../../api/sign-in'
-import { Logo } from '../../components/Logo'
+
+import LogoBrand from '../../assets/logo-reduced-white.png'
+
 
 export function SignIn() {
   const navigate = useNavigate()
@@ -29,7 +31,6 @@ export function SignIn() {
 
     try {
       await authenticate({ email, password })
-
       navigate('/dashboard', { replace: true })
     } catch (error) {
       toast.error('Erro ao logar. Tente novamente.')
@@ -38,13 +39,15 @@ export function SignIn() {
 
   return (
     <>
-      <div className="text-center my-5">
-        <Logo />
-      </div>
-
-      <div className="card shadow-lg">
+      <div className="card shadow-lg rounded-4 w-100">
         <div className="card-body p-5">
-          <h1 className="fs-4 card-title fw-bold mb-4">Login</h1>
+          <div className='w-100 mb-4 d-flex align-items-cente justify-content-center'>
+            <img src={LogoBrand} alt="Company Logo" style={{ width: 90 }} />
+          </div>
+          <div className='d-flex flex-column'>
+            <h1 className="fs-4 card-title fw-bold">Login</h1>
+            <p className='text-secondary'>Entre para criar as suas tarefas.</p>
+          </div>
 
           <form
             onSubmit={onSubmit}

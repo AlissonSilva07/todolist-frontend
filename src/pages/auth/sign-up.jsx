@@ -6,6 +6,8 @@ import { toast } from 'sonner'
 import { signUp } from '../../api/sign-up'
 import { Logo } from '../../components/Logo'
 
+import LogoBrand from '../../assets/logo-reduced-white.png'
+
 export function SignUp() {
   const navigate = useNavigate()
 
@@ -45,13 +47,15 @@ export function SignUp() {
 
   return (
     <>
-      <div className="text-center my-5">
-        <Logo />
-      </div>
-
-      <div className="card shadow-lg">
+      <div className="card shadow-lg w-100 rounded-4">
         <div className="card-body p-5">
-          <h1 className="fs-4 card-title fw-bold mb-4">Cadastre-se</h1>
+          <div className='w-100 mb-4 d-flex align-items-cente justify-content-center'>
+            <img src={LogoBrand} alt="Company Logo" style={{ width: 90 }} />
+          </div>
+          <div className='d-flex flex-column'>
+            <h1 className="fs-4 card-title fw-bold">Cadastre-se</h1>
+            <p className='text-secondary'>Registre-se para dar o próximo passo no mundo da organização.</p>
+          </div>
 
           <form
             onSubmit={onSubmit}
